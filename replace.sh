@@ -15,3 +15,9 @@ find . -type f -name "*.java" -print0 | xargs  -0 sed -i -E "s/\(@Parameter.*\) 
  
 # Replace allowedValues
 sed -i -E "s/\(@Parameter.*\) allowableValues \= \(\"[^\"]*\)\") @/\1 content = @Content(schema = @Schema(type = \"string\", allowableValues = \2\"))) @/" /Users/arunparamasivam/workspace/waave-platform/src/main/java/com/waave/platform/client/assembly/api/BatchTransactionsApi.java
+
+# @ApiOperation(value = "foo", notes = "bar") → @Operation(summary = "foo", description = "bar")
+find . -type f -name "*.java" -print0 | xargs  -0 sed -i -E "s/\(@Operation.*\)value = /\1summary = /"
+find . -type f -name "*.java" -print0 | xargs  -0 sed -i -E "s/\(@Operation.*\)notes = /\1description = /"
+# remove reponse from operation
+find . -type f -name "*.java" -print0 | xargs -0 sed -i -E "s/\(@Operation.*\), response \= \(.*\.class\)/\1/"
